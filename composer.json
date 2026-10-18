@@ -1,0 +1,93 @@
+{
+  "name": "alfasix/alfakit-ai",
+  "description": "AI built into AlfaKit panels with laravel/ai: one-line AI actions, field writing assistance, natural-language table filters, a panel copilot that respects policies, an MCP server and usage logging.",
+  "keywords": [
+    "laravel",
+    "alfakit",
+    "ai",
+    "llm",
+    "copilot",
+    "mcp"
+  ],
+  "homepage": "https://alfakit.dev/docs/plugins/ai",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alfa Six",
+      "homepage": "https://alfasixbh.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/alfasixbh/alfakit/issues",
+    "source": "https://github.com/alfasixbh/alfakit"
+  },
+  "require": {
+    "php": "^8.3",
+    "alfasix/alfakit": "^0.1|@dev",
+    "laravel/ai": "^1.2"
+  },
+  "suggest": {
+    "laravel/mcp": "^1.0 — required for AiPlugin::make()->mcp(), the MCP server of a panel.",
+    "alfasix/alfakit-api": "MCP clients can authenticate with the API plugin's personal access tokens.",
+    "laravel/sanctum": "MCP clients can authenticate with Sanctum personal access tokens."
+  },
+  "autoload": {
+    "psr-4": {
+      "AlfaSix\\AlfakitAi\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "AlfaSix\\AlfakitAi\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "AlfaSix\\AlfakitAi\\AlfakitAiServiceProvider"
+      ]
+    },
+    "alfakit": {
+      "version": "^0.1",
+      "frontend": null,
+      "showcase": {
+        "demoPath": "products/3/edit",
+        "tour": [
+          "Open a product",
+          "Ask the writing assistant to improve the description",
+          "Open the copilot and ask about orders",
+          "Review usage and cost"
+        ],
+        "clips": [
+          "react-light",
+          "react-dark",
+          "vue-light",
+          "vue-dark",
+          "svelte-light",
+          "svelte-dark"
+        ],
+        "worksWith": [
+          "translation-manager",
+          "helpdesk",
+          "cms"
+        ],
+        "highlights": [
+          "One-line AI actions on records",
+          "Writing assistant in text fields",
+          "Natural-language table filters",
+          "Panel copilot that respects policies",
+          "MCP server for your resources",
+          "Usage and cost logging",
+          "Works without a provider key in demos"
+        ]
+      }
+    }
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
