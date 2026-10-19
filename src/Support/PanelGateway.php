@@ -178,7 +178,7 @@ class PanelGateway
                 $results[] = array_filter([
                     'resource' => $resourceSlug,
                     'key' => $this->routeKey($resource, $record),
-                    'title' => $resource::getRecordTitle($record),
+                    'title' => $resource::hasRecordTitle() ? $resource::getRecordTitle($record) : null,
                     'url' => $this->recordUrl($resource, $record),
                 ], static fn (mixed $value): bool => $value !== null);
             }

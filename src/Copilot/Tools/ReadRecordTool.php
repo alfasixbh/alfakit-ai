@@ -45,7 +45,7 @@ class ReadRecordTool extends CopilotTool
             return $this->denied('Not found, or the user may not view it.');
         }
 
-        $this->turn->activity($this->name(), (string) __('alfakit-ai::ai.copilot.activity.read', ['record' => $resource::getModelLabel().' '.($resource::getRecordTitle($record) ?? $record->getKey())]));
+        $this->turn->activity($this->name(), (string) __('alfakit-ai::ai.copilot.activity.read', ['record' => $resource::getModelLabel().' '.(($resource::hasRecordTitle() ? $resource::getRecordTitle($record) : null) ?? $record->getKey())]));
 
         return [ToolCall::OK, $this->turn->gateway->read($resource, $record)];
     }

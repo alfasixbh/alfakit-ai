@@ -47,7 +47,7 @@ final class RecordData
             'resource' => $resource !== null ? $resource::getSlug() : null,
             'type' => $resource !== null ? $resource::getModelLabel() : class_basename($record),
             'key' => $record->getKey(),
-            'title' => $resource !== null ? $resource::getRecordTitle($record) : null,
+            'title' => $resource !== null && $resource::hasRecordTitle() ? $resource::getRecordTitle($record) : null,
             'fields' => $fields,
         ], static fn (mixed $value): bool => $value !== null);
     }

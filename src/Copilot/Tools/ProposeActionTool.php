@@ -79,7 +79,7 @@ class ProposeActionTool extends CopilotTool
                 'key' => $gateway->routeKey($resource, $record),
                 'action' => $name,
                 'label' => $action->getLabel(),
-                'record' => $resource::getModelLabel().' '.($resource::getRecordTitle($record) ?? $record->getKey()),
+                'record' => $resource::getModelLabel().' '.(($resource::hasRecordTitle() ? $resource::getRecordTitle($record) : null) ?? $record->getKey()),
                 'url' => $gateway->recordUrl($resource, $record),
                 'data' => $inputs,
                 'inputs' => $display,

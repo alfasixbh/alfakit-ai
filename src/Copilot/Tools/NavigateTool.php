@@ -65,7 +65,7 @@ class NavigateTool extends CopilotTool
         $label = match ($page) {
             'index' => $resource::getPluralModelLabel(),
             'create' => (string) __('alfakit-ai::ai.copilot.new_record', ['label' => $resource::getModelLabel()]),
-            default => $resource::getModelLabel().' '.($resource::getRecordTitle($record) ?? ''),
+            default => $resource::getModelLabel().' '.($resource::hasRecordTitle() ? $resource::getRecordTitle($record) : $record->getKey()),
         };
 
         $this->turn->message($this->turn->conversation->messages()->create([
