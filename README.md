@@ -1,6 +1,8 @@
 # AlfaKit AI
 
-<p><picture><source media="(prefers-color-scheme: dark)" srcset="../../../art/alfasix/alfa-six-micro-white.svg"><img src="../../../art/alfasix/alfa-six-micro-navy.svg" alt="" width="24" height="18" align="top"></picture> <sub>by <a href="https://alfasixbh.com">Alfa Six</a></sub></p>
+<p><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/alfasixbh/alfakit/main/art/alfasix/alfa-six-micro-white.svg"><img src="https://raw.githubusercontent.com/alfasixbh/alfakit/main/art/alfasix/alfa-six-micro-navy.svg" alt="" width="24" height="18" align="top"></picture> <sub>by <a href="https://alfasixbh.com">Alfa Six</a></sub></p>
+
+> This is a read-only split of the [AlfaKit monorepo](https://github.com/alfasixbh/alfakit/tree/main/packages/plugins/ai). Please open issues and pull requests there.
 
 AI for [AlfaKit](https://alfakit.dev) panels on [laravel/ai](https://github.com/laravel/ai), with the panel's own permissions: one-line AI actions (summarise, translate, extract into fields, classify), a writing assistant on text fields, natural-language table filters validated against the table's own filters, a copilot that searches, reads and proposes actions the user confirms, an MCP server for your resources, and usage logging with cost estimates. It renders in React, Vue and Svelte.
 
