@@ -44,6 +44,42 @@ it('puts the copilot button in the topbar of panels that enable it', function ()
     expect(json_encode($this->inertiaProps('/ai/orders')))->not->toContain('"type":"ai:copilot"');
 });
 
+it('offers the copilot to the host header of starter kit panels (<AlfakitCopilot />)', function (): void {
+    AlfaSix\Alfakit\Tests\Fixtures\AuthTenancy\Panels::register('ai-kit', fn (AlfaSix\Alfakit\Panel $panel): AlfaSix\Alfakit\Panel => $panel
+        ->starterKit()
+        ->resources([AlfaSix\AlfakitAi\Tests\Fixtures\Resources\OrderResource::class])
+        ->plugin(AlfaSix\AlfakitAi\AiPlugin::make()->copilot()));
+    AlfaSix\Alfakit\Support\StarterKitNavigation::register(alfakit());
+    Illuminate\Support\Facades\Route::middleware(['web', 'auth'])->get('/dashboard', fn () => Inertia\Inertia::render('dashboard'))->name('dashboard');
+    app('router')->getRoutes()->refreshNameLookups();
+
+    $navigation = collect($this->inertiaProps('/dashboard')['alfakitNavigation'])->firstWhere('id', 'ai-kit');
+
+    expect($navigation['widgets']['copilot'])->toBe(['label' => 'Open AI copilot', 'keyBindings' => ['mod+j']]);
+
+    // The loaded component renders the topbar slot's copilot from the panel data.
+    expect(json_encode($this->getJson('/ai-kit/_alfakit/starter-kit')->assertOk()->json('slots')))
+        ->toContain('"type":"ai:copilot"')
+        ->toContain('ai-kit\/_ai\/copilot\/messages');
+
+    AlfaSix\AlfakitAi\AiPlugin::get(alfakit()->getPanel('ai-kit'))?->authorize(fn (): bool => false);
+
+    $navigation = collect($this->inertiaProps('/dashboard')['alfakitNavigation'])->firstWhere('id', 'ai-kit');
+
+    expect($navigation['widgets'])->not->toHaveKey('copilot');
+});
+
+it('leaves API resources (no Eloquent query) out of the copilot\'s tools instead of failing every search', function (): void {
+    $panel = alfakit()->getPanel('ai');
+    $plugin = plugin()->resources([AlfaSix\AlfakitAi\Tests\Fixtures\Resources\OrderResource::class, AlfaSix\Alfakit\Tests\Fixtures\ApiResources\CarrierResource::class]);
+    order(['number' => 'SO-API']);
+    alfakit()->setCurrentPanel($panel);
+    $gateway = new AlfaSix\AlfakitAi\Support\PanelGateway($panel, $plugin);
+
+    expect(array_values($gateway->resources()))->toBe([AlfaSix\AlfakitAi\Tests\Fixtures\Resources\OrderResource::class])
+        ->and(collect($gateway->search('SO-API'))->pluck('title')->all())->toContain('SO-API');
+});
+
 it('leaves the copilot out of tenancy pages without a current tenant', function (): void {
     $alpha = team('Alpha');
     $this->user->teams()->attach($alpha->getKey());

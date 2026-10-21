@@ -10,6 +10,7 @@ use AlfaSix\Alfakit\Actions\BulkAction;
 use AlfaSix\Alfakit\Actions\Exceptions\Cancel;
 use AlfaSix\Alfakit\Actions\Exceptions\Halt;
 use AlfaSix\Alfakit\Panel;
+use AlfaSix\Alfakit\Resources\ApiResource;
 use AlfaSix\Alfakit\Resources\Pages\CreateRecord;
 use AlfaSix\Alfakit\Resources\Pages\EditRecord;
 use AlfaSix\Alfakit\Resources\Pages\ListRecords;
@@ -65,7 +66,9 @@ class PanelGateway
         $resources = [];
 
         foreach ($this->plugin->getResources($this->panel) as $resource) {
-            if ($resource::getParentResource() !== null) {
+            // Nested resources are reached through their parent; API resources' records come
+            // from a data source, not an Eloquent query, so the tools can't search or read them.
+            if ($resource::getParentResource() !== null || is_subclass_of($resource, ApiResource::class)) {
                 continue;
             }
 

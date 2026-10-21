@@ -192,6 +192,13 @@ class AiPlugin implements Plugin
             // Tenancy pages without a current tenant (profile, tenant registration) have no
             // copilot: its endpoints live under the tenant's URL.
             $panel->slot(Slot::TOPBAR_END, fn (): ?Copilot => Copilot::isAvailable() && $this->canUse(AiFeature::Copilot) ? Copilot::make() : null);
+
+            // `starterKit()` panels have no AlfaKit topbar: the host header's `<AlfakitCopilot />`
+            // renders the same component (from the panel data) with this to start with.
+            $panel->starterKitWidget('copilot', fn (): ?array => Copilot::isAvailable($panel) && $this->canUse(AiFeature::Copilot) ? [
+                'label' => __('alfakit-ai::ai.ui.open'),
+                'keyBindings' => $this->getCopilotKeyBindings(),
+            ] : null);
         }
     }
 
